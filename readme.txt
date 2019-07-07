@@ -6,7 +6,7 @@ ssm框架手动配置环境
 建立一个spring默认配置文件 applicationContext.xml
 1>先自动扫包
 <!--  	自动扫描包 -->
-	<context:component-scan base-package="com.woniuxy"></context:component-scan>
+	<context:component-scan base-package="com.woniu"></context:component-scan>
 2>取代mybatis的的主配置文件，
 	配置德鲁伊连接池去连接数据库
 	<!--  	让spring管理数据库连接，让德鲁伊连接池配置sql -->
@@ -33,8 +33,50 @@ ssm框架手动配置环境
 		<property name="basePackage" value="com.woniu.dao" />
 	</bean>
 3>配置声明式事务管理器DatasourceTransactionManager
-	<bean id="TransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- 一个坑，id必须为小写，这样启用时可以不写，因为默认是transactionManager这个名字-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="ds"></property>
 	</bean>
-并启用<tx:annotation-driven/>	
+	
+	启用:
+	<!-- id是其他名字，必须要写括号里的配置-->
+	<tx:annotation-driven (transaction-manager="同bean id")/>	
+	
+3.最后可以建一个service接口和实现类 测试环境
+接口
+package com.woniu.service;
+import com.woniu.entity.User;
+public interface IUserService {
+	void save(User user);
+}
+实现类
+package com.woniu.service.impl;
+@Service
+@Transactional
+public class UserServiceImpl implements IUserService {
 
+	@Autowired
+	private UserMapper mapper;
+	
+	@Override
+	public void save(User user) {
+		mapper.insertSelective(user);
+	}
+}
+测试包
+package com.woniu.test;
+public class AppTest {
+@Test
+public void testName() throws Exception {
+	ApplicationContext ax = //
+			new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+	IUserService service = (IUserService) ax.getBean("userServiceImpl");
+//	System.out.println(service.getClass());
+	User u = new User();
+	u.setName("ergoulalala");
+	u.setPassword("123456");
+	service.save(u);
+}
+}
+
+...

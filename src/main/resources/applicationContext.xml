@@ -18,9 +18,7 @@
 		http://www.alibaba.com/schema/stat http://www.alibaba.com/schema/stat.xsd">
 	
 	<!--  	自动扫描包 -->
-	<context:component-scan base-package="com.woniuxy"></context:component-scan>
-	
-	
+	<context:component-scan base-package="com.woniu"></context:component-scan>
 	
 	<!-- 	让spring管理mybatis的SqlSessionFactory开始 -->
 	
@@ -29,7 +27,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql:///test"></property>
 		<property name="username" value="root"></property>
-		<property name="password" value="123465"></property>
+		<property name="password" value="123456"></property>
 	</bean>
 	<bean id="sf" class="org.mybatis.spring.SqlSessionFactoryBean">  
 		<property name="dataSource" ref="ds"></property>
@@ -51,12 +49,12 @@
 	
 	
 	<!-- 	使用声明式事务开始 -->
-	<bean id="TransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="ds"></property>
 	</bean>
 	<!-- 	使用声明式事务结束 -->
 	
 	<!-- 	启用声明式事务 -->
-	<tx:annotation-driven/>
+	<tx:annotation-driven />
 
 </beans>

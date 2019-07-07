@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:stat="http://www.alibaba.com/schema/stat"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.alibaba.com/schema/stat http://www.alibaba.com/schema/stat.xsd">
+	
+	<!--  	自动扫描包 -->
+	<context:component-scan base-package="com.woniuxy"></context:component-scan>
+	
+	
+	
+	<!-- 	让spring管理mybatis的SqlSessionFactory开始 -->
+	
+	<!--  	让spring管理数据库连接，让德鲁伊连接池配置sql -->
+	<bean id="ds" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql:///test"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123465"></property>
+	</bean>
+	<bean id="sf" class="org.mybatis.spring.SqlSessionFactoryBean">  
+		<property name="dataSource" ref="ds"></property>
+		<property name="typeAliasesPackage" value="com.woniu.entity"></property>
+	</bean>
+	
+	<!-- 
+		指定子配置文件的位置，工厂就会自动根据找到的子配置，来动态生成对应接口的实现类，并让入容器 
+		比如，在com.woniu.dao下找到了UserMapper.xml文件，就会自动创建一个类， 去实现UserMapper接口！
+		并且把该UserMapper的实现类的对象，存入容器中，这样在@Autowired UserMapper mapper;就能注入成功了！
+	-->
+	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.woniu.dao" />
+	</bean>
+	
+
+	<!-- 	让spring管理mybatis的SqlSessionFactory结束 -->
+	
+	
+	
+	<!-- 	使用声明式事务开始 -->
+	<bean id="TransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	<!-- 	使用声明式事务结束 -->
+	
+	<!-- 	启用声明式事务 -->
+	<tx:annotation-driven/>
+
+</beans>

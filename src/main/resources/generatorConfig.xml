@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <context id="context1" >
+  	<commentGenerator>
+		<property name="suppressAllComments" value="true" />
+	</commentGenerator>
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/test?characterEncoding=gbk" userId="root" password="123456" />
+    <javaModelGenerator targetPackage="com.woniu.entity" targetProject=".\src\main\java" ></javaModelGenerator>
+    <sqlMapGenerator targetPackage="com.woniu.dao" targetProject=".\src\main\java" ></sqlMapGenerator>
+    <javaClientGenerator targetPackage="com.woniu.dao" targetProject=".\src\main\java" type="XMLMAPPER" />
+    
+    <table schema="" tableName="dept" ></table>
+    <table schema="" tableName="emp" ></table>
+    <table schema="" tableName="user" ></table>
+  </context>
+</generatorConfiguration>

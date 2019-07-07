@@ -79,4 +79,40 @@ public void testName() throws Exception {
 }
 }
 
-...
+..........................
+
+
+4.集成spring-mvc
+1导入jar包
+2建一个spring配置xml文件
+配置基本的三大件
+先扫web包
+	<context:component-scan base-package="com.woniu.web.controller"></context:component-scan>
+映射器和适配器走默认的
+	
+	<mvc:annotation-driven></mvc:annotation-driven>	
+试图解析器如下	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+3.在web下建一个controller测试下
+@Controller
+@RequestMapping("users")
+public class UserController {
+	@Autowired
+	private IUserService service;
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public void findOne() {
+	System.out.println("UserController.findOne()"+service);
+	}
+}
+页面访问localhost:端口号/项目名+映射名
+localhost/0706SSMDemo/users
+测试完成，可以输出
+
+************************
+基本环境搭成
+
